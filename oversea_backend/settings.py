@@ -1,7 +1,5 @@
 from pathlib import Path
 from datetime import timedelta
-from django.conf import settings
-from PIL import Image
 import os
 from dotenv import load_dotenv
 
@@ -18,10 +16,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-# ALLOWED_HOSTS = ["43.201.158.188", "findfoodlao.com", "findfoodlao", "localhost", "127.0.0.1"]
-ALLOWED_HOSTS = ["43.203.0.19", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["43.201.158.188", "findfoodlao.com", "findfoodlao", "localhost", "127.0.0.1"]
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -44,46 +41,31 @@ CORS_ALLOW_HEADERS = [
     "x-requested-with",
 ]
 
-
-# AWS S3 settings
+#  s3 settings
 if not DEBUG:
-
-    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
-    AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME")
-
-    # Static files (CSS, JavaScript, images)
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/static/'
-
-    # Media files (uploads)
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/media/'
-
-
-#     # aws settings
-#     AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
-#     AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-#     AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
-#     AWS_S3_SIGNATURE_NAME = ("s3v4",)
-#     AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME")
-#     AWS_S3_FILE_OVERWRITE = False
-#     AWS_DEFAULT_ACL = None
-#     AWS_S3_VERITY = True
-#     DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-#     AWS_S3_CUSTOM_DOMAIN = (
-#         f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
-#     )
-#     STATIC_LOCATION = "static"
-#     STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/"
-#     PUBLIC_MEDIA_LOCATION = "media"
-#     MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/"
+    # aws settings
+    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+    AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+    AWS_S3_SIGNATURE_NAME = ("s3v4",)
+    AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME")
+    AWS_S3_FILE_OVERWRITE = False
+    AWS_DEFAULT_ACL = None
+    AWS_S3_VERITY = True
+    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+    AWS_S3_CUSTOM_DOMAIN = (
+        f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
+    )
+    STATIC_LOCATION = "static"
+    STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/"
+    PUBLIC_MEDIA_LOCATION = "media"
+    MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/"
 else:
     STATIC_URL = "/static/"
     STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
     MEDIA_URL = "/media/"
     MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
+
     STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
     # # testing
@@ -106,6 +88,7 @@ else:
     # MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/"
 
 # Application definition
+
 INSTALLED_APPS = [
     "channels",
     "drf_yasg",
